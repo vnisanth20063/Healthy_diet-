@@ -6,6 +6,13 @@ import os
 # ---------------- LOAD ENV ----------------
 load_dotenv()
 
+# Get API key safely
+api_key = os.getenv("GROQ_API_KEY")
+
+if not api_key:
+    st.error("GROQ_API_KEY not found in .env file")
+    st.stop()
+
 # ---------------- INIT SESSION STATE ----------------
 if "analysis" not in st.session_state:
     st.session_state.analysis = None
@@ -13,17 +20,16 @@ if "analysis" not in st.session_state:
 if "diet" not in st.session_state:
     st.session_state.diet = None
 
-
 # ---------------- LOAD LLM (CACHED) ----------------
 @st.cache_resource
 def load_llm():
     return ChatGroq(
         model="llama-3.1-8b-instant",
-        temperature=1
+        temperature=1,
+        api_key=api_key
     )
 
 llm = load_llm()
-
 
 # ---------------- FUNCTION 1 ----------------
 def analyze_report(report, age, gender, activity, disease):
