@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 # Get API key safely
-api_key = os.getenv("GROQ_API_KEY")
+api_key = os.getenv("groq_api_key")
 
 if not api_key:
     st.error("GROQ_API_KEY not found in .env file")
