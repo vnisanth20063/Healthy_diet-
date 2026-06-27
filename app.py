@@ -104,10 +104,12 @@ Include:
 - Foods to avoid
 - Lifestyle tips
 
-
+If the diet plan is successfully generated 
 End with:
 
 "Small steps today create a healthier tomorrow 💪"
+
+Else warning about the incomplete analyis due to incomplete input. 
 
 """
 
