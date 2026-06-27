@@ -107,7 +107,8 @@ Include:
 If the diet plan is successfully generated for the medical analysis
 End with:
 
-"Small steps today create a healthier tomorrow 💪"
+Displays :
+"Small steps today create a healthier tomorrow 💪" this only when the healthy diet is generated.
 
 """
 
