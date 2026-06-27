@@ -104,7 +104,7 @@ Include:
 - Foods to avoid
 - Lifestyle tips
 
-If the diet plan is successfully generated 
+If the diet plan is successfully generated for the analysis
 End with:
 
 "Small steps today create a healthier tomorrow 💪"
