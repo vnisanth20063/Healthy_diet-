@@ -89,7 +89,7 @@ Based on this medical analysis:
 {analysis}
 
 
-Create a structured diet plan only if it strictly has all values for medical analysis.
+Create a structured diet plan only if it strictly has all values for medical analysis.Don't create hypothetical diet plan.
 For:
 Morning
 Breakfast
