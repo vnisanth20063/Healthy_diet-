@@ -1,6 +1,9 @@
 import streamlit as st
 from langchain_groq import ChatGroq
-
+from dotenv import load_dotenv
+load_dotenv()
+import os
+a=os.getenv("groq_api_key")
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
@@ -9,13 +12,12 @@ st.set_page_config(
 )
 
 
-# ---------------- LOAD API KEY FROM STREAMLIT SECRETS ----------------
-if "GROQ_API_KEY" not in st.secrets:
-    st.error("GROQ_API_KEY not found in Streamlit Secrets")
-    st.stop()
 
 
-# ---------------- SESSION STATE ----------------
+api_key = a
+
+
+# ---------------- INIT SESSION STATE ----------------
 if "analysis" not in st.session_state:
     st.session_state.analysis = None
 
@@ -23,36 +25,38 @@ if "diet" not in st.session_state:
     st.session_state.diet = None
 
 
-# ---------------- LOAD LLM ----------------
+# ---------------- LOAD LLM (CACHED) ----------------
 @st.cache_resource
 def load_llm():
 
     return ChatGroq(
         model="llama-3.1-8b-instant",
         temperature=1,
-        api_key=st.secrets["GROQ_API_KEY"]
+        api_key=api_key
     )
 
 
 llm = load_llm()
 
 
-# ---------------- ANALYZE REPORT ----------------
-def analyze_report(report, age, gender, activity, disease):
+# ---------------- FUNCTION 1 ----------------
+def analyze_report(file,weight,activity,disease):
 
     prompt = f"""
+
 You are a medical report analyzer.
 
 Extract important numerical values and interpret them.
 
-User details:
-Age: {age}
-Gender: {gender}
-Activity level: {activity}
+
 Diseases: {disease}
 
-Medical Report:
-{report}
+Activity: {activity}
+
+Weight: {weight}
+
+Use this for Medical Report: {file}
+
 
 Return:
 
@@ -60,7 +64,6 @@ Return:
 - Abnormal values
 - Simple health summary
 
-Keep the explanation easy to understand.
 """
 
 
@@ -70,10 +73,11 @@ Keep the explanation easy to understand.
 
 
 
-# ---------------- GENERATE DIET ----------------
+# ---------------- FUNCTION 2 ----------------
 def generate_diet(analysis):
 
     prompt = f"""
+
 You are a professional diet planner.
 
 Based on this medical analysis:
@@ -83,15 +87,10 @@ Based on this medical analysis:
 
 Create a structured diet plan:
 
-
 Morning
-
 Breakfast
-
 Lunch
-
 Evening snack
-
 Dinner
 
 
@@ -105,6 +104,7 @@ Include:
 End with:
 
 "Small steps today create a healthier tomorrow 💪"
+
 """
 
 
@@ -114,16 +114,13 @@ End with:
 
 
 
-# ---------------- UI ----------------
+# ---------------- STREAMLIT UI ----------------
 
 st.title("🩺 Health Report AI Analyzer")
 
 
 tab1, tab2 = st.tabs(
-    [
-        "📄 Analysis",
-        "🥗 Diet Plan"
-    ]
+    ["📄 Analysis", "🥗 Diet Plan"]
 )
 
 
@@ -132,57 +129,42 @@ tab1, tab2 = st.tabs(
 
 with tab1:
 
+    
 
-    report = st.text_area(
-        "Medical Report Text"
-    )
+    file = st.file_uploader("Upload img")
 
-
-    age = st.number_input(
-        "Age",
-        min_value=1,
-        max_value=100
-    )
-
-
-    gender = st.selectbox(
-        "Gender",
-        [
-            "Male",
-            "Female"
-        ]
-    )
-
-
+   
     activity = st.selectbox(
         "Activity Level",
-        [
-            "Low",
-            "Moderate",
-            "High"
-        ]
+        ["Low", "Moderate", "High"]
     )
 
 
     disease = st.text_area(
         "Diseases (if any)"
     )
-
+    
+    weight=st.number_input(
+        "Weight in kg",
+         min_value=0,
+         max_value=160
+    )
 
 
     if st.button("Analyze Report"):
 
 
-        if report.strip():
+        if file:
 
 
-            with st.spinner("Analyzing report..."):
+            with st.spinner(
+                "Analyzing report..."
+            ):
 
 
                 result = analyze_report(
-                    report,
-                    age,
-                    gender,
+                    file,
+                    weight,
                     activity,
                     disease
                 )
@@ -199,13 +181,7 @@ with tab1:
             st.write(result)
 
 
-
-        else:
-
-            st.warning(
-                "Please enter medical report"
-            )
-
+        
 
 
 
@@ -220,7 +196,9 @@ with tab2:
         if st.button("Generate Diet Plan"):
 
 
-            with st.spinner("Creating diet plan..."):
+            with st.spinner(
+                "Creating diet plan..."
+            ):
 
 
                 diet = generate_diet(
