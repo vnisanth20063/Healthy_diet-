@@ -89,7 +89,7 @@ Based on this medical analysis:
 {analysis}
 
 
-Create a structured diet plan if it has a proper input:
+Create a structured diet plan if it has a medical analysis:
 
 Morning
 Breakfast
@@ -104,12 +104,10 @@ Include:
 - Foods to avoid
 - Lifestyle tips
 
-If the diet plan is successfully generated for the analysis
+If the diet plan is successfully generated for the medical analysis
 End with:
 
 "Small steps today create a healthier tomorrow 💪"
-
-Else warning about the incomplete analyis due to incomplete input. 
 
 """
 
