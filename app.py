@@ -64,6 +64,9 @@ Return:
 - Abnormal values
 - Simple health summary
 
+
+If the input is not realated to medical report give the warning corresponding to the needed input
+
 """
 
 
