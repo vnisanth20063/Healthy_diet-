@@ -89,7 +89,7 @@ Based on this medical analysis:
 {analysis}
 
 
-Create a structured diet plan if it has a medical analysis:
+Create a structured diet plan if it strictly a medical analysis:
 
 Morning
 Breakfast
