@@ -65,8 +65,8 @@ Return:
 - Simple health summary
 
 
-If the input is not realated to medical report or the input is not a general form give the warning corresponding to the needed input and stop prcoeeding.then 
-ask for the appropriate input.
+If the input is not realated to medical report or the input is not a general form of the medical report then give the warning corresponding
+to the input needed and stop prcoeeding.
 
 """
 
@@ -89,8 +89,8 @@ Based on this medical analysis:
 {analysis}
 
 
-Create a structured diet plan if it strictly a medical analysis:
-
+Create a structured diet plan only if it strictly has all values for medical analysis.
+For:
 Morning
 Breakfast
 Lunch
