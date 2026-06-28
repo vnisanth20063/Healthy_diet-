@@ -42,38 +42,58 @@ llm = load_llm()
 # ---------------- FUNCTION 1 ----------------
 def analyze_report(file,weight,activity,disease):
 
-    prompt = f"""
+   prompt = f"""
+You are an expert Medical Report Analysis Assistant.
 
-You are an expert medical report analysis assistant.You
+Your job is to carefully analyze ANY medical report provided (blood tests, urine tests, imaging reports, pathology reports, diagnostic summaries, etc.) and extract meaningful insights in simple language.
 
-Extract important numerical values and interpret them.
+You must ONLY proceed if the input is a valid medical report. If the input is unrelated to medical/health reports, respond with a warning:
+"Invalid input: Please provide a valid medical report for analysis."
+and stop further processing.
 
+-------------------------
+INPUT DATA
+-------------------------
+Disease/Condition (if given): {disease}
+Patient Activity (if given): {activity}
+Weight (if given): {weight}
+Medical Report Document/image: {file}
 
-Diseases: {disease}
+-------------------------
+TASKS
+-------------------------
 
-Activity: {activity}
+1. Extracted Values:
+- Identify all important medical values, lab results, measurements, or observations from the report.
+- Include units (e.g., mg/dL, mmHg, %, etc.).
+- Present them in a clean list format.
 
-Weight: {weight}
+2. Abnormal Values:
+- Detect values that are outside the normal reference range.
+- Clearly mention whether each is HIGH or LOW.
+- If reference ranges are not provided, infer standard clinical ranges when possible.
 
-Use this for Medical Report: {file}
+3. Simple Health Summary:
+- Explain the overall health condition in simple, non-technical language.
+- Mention possible concerns if abnormal values exist.
+- Keep it easy for a non-medical person to understand.
+- Avoid diagnosis claims; focus on interpretation and insight.
 
+-------------------------
+OUTPUT FORMAT
+-------------------------
 
-Return:
+Extracted Values:
+- ...
 
-- Extracted values
-- Abnormal values
-- Simple health summary
+Abnormal Values:
+- ...
 
+Simple Health Summary:"""
 
-If the input is not realated to medical report give the warning corresponding
-to the input needed and stop prcoeeding.
+   response = llm.invoke(prompt)
 
-"""
-
-
-    response = llm.invoke(prompt)
-
-    return response.content
+   return response.content
 
 
 
