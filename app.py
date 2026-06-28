@@ -65,7 +65,7 @@ Return:
 - Simple health summary
 
 
-If the input is not realated to medical report or the input is not a general form of the medical report then give the warning corresponding
+If the input is not realated to medical report give the warning corresponding
 to the input needed and stop prcoeeding.
 
 """
