@@ -44,7 +44,7 @@ def analyze_report(file,weight,activity,disease):
 
     prompt = f"""
 
-You are a medical report analyzer.
+You are an expert medical report analysis assistant.You
 
 Extract important numerical values and interpret them.
 
